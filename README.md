@@ -59,4 +59,7 @@ a2enmod ssl
 </VirtualHost>
 
 ```
-
+- Reboot apache server to apply changes:
+```
+systemctl restart apache2
+```
