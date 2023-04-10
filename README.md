@@ -1,6 +1,9 @@
 # Apache2 ssl configuration for odoo 15
 
 Odoo default port is 8069. You can follow this instruction to convert your http odoo server to a ssl server.
+In case you change the workers on odoo, you need to redirect /longpolling in the apache config file. Otherwise, 
+odoo could not access to longpolling address and the bus would not work.
+
 #### Prerequisits:
 1. Linix server ( Ubunto, Debian )
 2. Apache2 installed
@@ -14,6 +17,7 @@ Odoo default port is 8069. You can follow this instruction to convert your http 
 http_port = 8069
 longpolling_port = 8072
 proxy_mode = True 
+workers = 4
 ```
 - reboot odoo
 ```
