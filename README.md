@@ -27,3 +27,36 @@ a2enmod proxy
 a2enmod proxy_http 
 a2enmod ssl
 ```
+### c) Redirect http to http
+- edit /etc/apache2/site-available/<youDomain.com>.conf
+```
+<VirtualHost *:80>
+    ServerName <yourDomain.com>
+    Redirect permanent / https://<yourDomain.com>/
+</VirtualHost>
+
+<VirtualHost *:443>
+    Servername <yourDomain.com>
+    SSLEngine on
+    Include /etc/letsencrypt/options-ssl-apache.conf
+    SSLCertificateKeyFile /etc/ssl/<yourDomain.com>/privkey.pem
+    SSLCertificateFile  /etc/ssl/<yourDomain.com>/fullchain.pem
+    SSLProxyEngine on
+    RequestHeader set "X-Forwarded-Proto" "https"
+    SetEnv proxy-nokeepalive 1
+    
+    ProxyPass /longpolling http://0.0.0.0:8072/longpolling
+    ProxyPassReverse /longpolling http://0.0.0.0:8072/longpolling
+    
+    ProxyPass / http://<yourDomain.com>:8069/
+    ProxyPassReverse / http://<yourDomain.com>:8069/
+    
+
+    ProxyErrorOverride off
+    TransferLog /var/log/apache2/transfer.erp.your-domain.at.log
+    #Fix IE problem (httpapache proxy dav error 408/409)
+    SetEnv proxy-nokeepalive 1
+</VirtualHost>
+
+```
+
