@@ -49,8 +49,8 @@ a2enmod ssl
     RequestHeader set "X-Forwarded-Proto" "https"
     SetEnv proxy-nokeepalive 1
     
-    ProxyPass /longpolling http://0.0.0.0:8072/longpolling
-    ProxyPassReverse /longpolling http://0.0.0.0:8072/longpolling
+    ProxyPass /longpolling http://<yourDomain.com>:8072/longpolling
+    ProxyPassReverse /longpolling http://<yourDomain.com>:8072/longpolling
     
     ProxyPass / http://<yourDomain.com>:8069/
     ProxyPassReverse / http://<yourDomain.com>:8069/
